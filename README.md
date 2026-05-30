@@ -190,7 +190,7 @@ volume_mongodb
 
 il utilise le `port  27017` pour l'accès en interne Docker et le `port 27018` pour l'accès en local via Compass.
 
-###2. Service test
+### 2. Service test
 
 Ce service lance les tests définis plus haut.
 
@@ -201,7 +201,7 @@ L'image Python associée a été construite à partir du Dockerfile.test.
 Ce service dépend du conteneur mongo_datasolutech
 
 
-###3. Service migration
+### 3. Service migration
 
 Ce service lance la migration vers la base de donnnées définie plus haut.
 
