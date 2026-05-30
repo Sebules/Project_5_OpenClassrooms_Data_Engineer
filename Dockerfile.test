@@ -1,0 +1,20 @@
+# Image de base Python
+FROM python:3.11-slim
+
+# Dossier de travail dans le conteneur
+WORKDIR /app
+
+# Copier et installer les dépendances
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt #--no-cache-dir pour empêcher pip de garder son cache
+
+# Copier tous les tests
+# COPY tests/ tests/
+# Copier toutes les fonctions
+# COPY fonctions/ fonctions/
+# COPY donnees/ donnees/
+# Copier tout le projet est préférable
+COPY . .
+
+#Commande exécutée au démarrage du conteneur
+CMD ["pytest","-v"]

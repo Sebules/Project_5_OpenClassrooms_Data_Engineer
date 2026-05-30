@@ -4,20 +4,32 @@ import os
 from datetime import datetime
 from pymongo import MongoClient
 import sys
+from dotenv import load_dotenv
 
 # === CONFIG PATH ===
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  #ajouter le dossier parent du fichier courant au chemin de recherche des modules Python
 from fonctions.connexion_mongodb import connect_mongodb
 from fonctions.cleaning_df import analyse_df
 from fonctions.migration_to_mongodb import migrate_mongodb
 from fonctions.crud_mongodb import (create_one_document, create_documents,
     read_one_document, read_documents, update_one_document, update_documents,delete_documents)
 
-client = connect_mongodb('mongodb://localhost:27017/')
-chemin= Path(os.getcwd())
-path = chemin/'donnees/healthcare_dataset.csv'
-df = analyse_df(path)
-collection, db = migrate_mongodb(df,client,'datasolutech','healthcare_data_test_crud')
+load_dotenv()
+env = os.getenv("ENV_TEST", "local")
+
+if env == "docker":
+    PATH_CSV = os.getenv("DOCKER_PATH_CSV")
+    MONGO_URI = os.getenv("DOCKER_MONGO_URI")
+else:
+    PATH_CSV = os.getenv("LOCAL_PATH_CSV")
+    MONGO_URI = os.getenv("LOCAL_MONGO_URI")
+    
+COLLECTION_NAME_TEST_CRUD = os.getenv("COLLECTION_NAME_TEST_CRUD")
+DB_NAME = os.getenv("DB_NAME")
+
+client = connect_mongodb(MONGO_URI)
+df = analyse_df(PATH_CSV)
+collection, db = migrate_mongodb(df,client,DB_NAME,COLLECTION_NAME_TEST_CRUD)
 
 def test_create_one_document():
     #Arrange
@@ -39,7 +51,7 @@ def test_create_one_document():
              'test_results': 'normal'
         }
     #Act
-    doc_inserted = create_one_document(client,'datasolutech','healthcare_data_test_crud',doc)
+    doc_inserted = create_one_document(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,doc)
 
     #Assert
     assert doc_inserted.inserted_id is not None, "Document non créé."
@@ -101,7 +113,7 @@ def test_create_documents():
     }
 ]
     #Act
-    docs_inserted = create_documents(client,'datasolutech','healthcare_data_test_crud',docs)
+    docs_inserted = create_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,docs)
 
     # Assert
     assert docs_inserted.inserted_ids is not None, "Documents non créés."
@@ -112,7 +124,7 @@ def test_read_one_document():
     recherche = {"Name": "Bobby JacksOn"}
 
     #Act
-    doc_read = read_one_document(client,'datasolutech','healthcare_data_test_crud',recherche)
+    doc_read = read_one_document(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,recherche)
 
     #Assert
     assert doc_read is not None, "Document non lu."
@@ -125,7 +137,7 @@ def test_read_documents():
     champs = {'_id':0,'Name':1,'Admission Type':'Emergency'}
 
     #Act
-    docs_read = read_documents(client,'datasolutech','healthcare_data_test_crud',filtre, champs, 10)
+    docs_read = read_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,filtre, champs, 10)
 
     #Assert
     assert docs_read is not None, "Documents non lus."
@@ -135,7 +147,7 @@ def test_update_one_document():
     recherche = {"name":"christina tyher"}
     changement = {"age": 95}
     #Act
-    doc_updated = update_one_document(client,'datasolutech','healthcare_data_test_crud',recherche,changement)
+    doc_updated = update_one_document(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,recherche,changement)
     #Assert
     assert doc_updated is not None, "Document non mis à jour."
     
@@ -148,7 +160,7 @@ def test_update_documents():
     }
     changement = {'doctor':'georges mitchell'}
     #Act
-    docs_updated = update_documents(client,'datasolutech','healthcare_data_test_crud',recherche,changement)
+    docs_updated = update_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,recherche,changement)
     #Assert
     assert docs_updated is not None, "Documents non mis à jour."
 
@@ -156,7 +168,7 @@ def test_delete_document_one():
     #Arrange
     recherche = {'name':'daniella smith'}
     #Act
-    doc_deleted = delete_documents(client,'datasolutech','healthcare_data_test_crud', recherche, one=True)
+    doc_deleted = delete_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD, recherche, one=True)
     #Assert
     assert doc_deleted.acknowledged == True, "Document non supprimé."
 
@@ -165,7 +177,7 @@ def test_delete_documents():
     #Arrange
     recherche = {'name': {'$in': ['christina tyher','daniella marks','matt smith']}}
     #Act
-    docs_deleted = delete_documents(client,'datasolutech','healthcare_data_test_crud', recherche, one=False)
+    docs_deleted = delete_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD, recherche, one=False)
     #Assert
     assert docs_deleted.acknowledged == True, "Documents non supprimés."
 
