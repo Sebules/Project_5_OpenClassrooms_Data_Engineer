@@ -122,8 +122,7 @@ Cela évite de modifier la collection principale du projet.
 ## Installer les dépendances
 
 
-```bash
-
+```
 pip install -r requirements.txt
 
 ```
@@ -135,9 +134,9 @@ Les tests sont automatisés avec pytest.
 
 Pour lancer l'ensemble des tests, taper après s'être placé dans le répertoire où sont les fichiers tests:
 
-```bash
+```
 
-pytest
+pytest -v
 
 ```
 ## Déploiement avec Docker
@@ -150,7 +149,8 @@ Docker permet de lancer le projet dans un environnement isolé et reproductible.
 
 Au lieu d'installer MongoDB et toutes les dépendances Python directement sur la machine, on utilise :
 
-- un conteneur MongoDB ;
+- un conteneur MongoDB
+- un conteneur Python pour exécuter les tests 
 - un conteneur Python pour exécuter le script de migration.
 
 Cela permet de partager plus facilement le projet et de le lancer avec les mêmes versions des outils.
@@ -171,9 +171,42 @@ Un conteneur est donc généralement plus léger et plus rapide à démarrer qu'
 
 Le projet utilise deux services Docker.
 
-### 1. Service `mongo`
+### 1. Service MongoDB
 
 Ce service lance une base MongoDB à partir de l'image officielle :
 
-```yaml
+```
 image: mongo:7
+```
+
+Le conteneur associé se nomme `container_name: mongodb_datasolutech`
+
+
+Les données MongoDB sont sauvegardées dans un volume Docker
+
+```
+volume_mongodb
+```
+
+il utilise le `port  27017` pour l'accès en interne Docker et le `port 27018` pour l'accès en local via Compass.
+
+###2. Service test
+
+Ce service lance les tests définis plus haut.
+
+Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
+
+L'image Python associée a été construite à partir du Dockerfile.test.
+
+Ce service dépend du conteneur mongo_datasolutech
+
+
+###3. Service migration
+
+Ce service lance la migration vers la base de donnnées définie plus haut.
+
+Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
+
+L'image Python associée a été construite à partir du Dockerfile.
+
+Ce service dépend du conteneur mongo_datasolutech
