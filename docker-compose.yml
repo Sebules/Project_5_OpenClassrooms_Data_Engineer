@@ -11,8 +11,6 @@ services:
 
   # Service de test
   test:
-    #profiles:
-     #- test
     env_file:
       - .env     
     build: 
@@ -25,9 +23,7 @@ services:
       - ./donnees:/data #Le dossier local donnees est partagé avec le conteneur Python
 
   # Service de migration
-  migration:
-    #profiles:
-     #- migration
+  migration:    
     env_file:
       - .env     
     build: . # Docker construit l’image du script Python à partir du Dockerfile
