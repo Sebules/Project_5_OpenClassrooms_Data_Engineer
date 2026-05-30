@@ -14,5 +14,4 @@ RUN pip install -r requirements.txt
 COPY . . 
 
 # Commande exécutée au démarrage du conteneur
-CMD ["pytest","-v"]
 CMD ["python", "scripts/script_migration_csv_mongodb.py"]
