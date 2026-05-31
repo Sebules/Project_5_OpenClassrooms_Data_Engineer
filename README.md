@@ -47,6 +47,7 @@ L'objectif de ce projet est de pouvoir faire la migration d'une base de données
 Une base de données MongoDB se compose de plusieurs collections qui possèdent plusieurs documents.<br>
 Dans le cadre de ce projet, la base de données nommée `datasolutech` est composée d'une collection `healthcare_data` dont les documents se présentent sous la forme suivante:
 
+```
 datasolutech (database)
 └── healthcare_data (collection)
     └── document
@@ -66,7 +67,7 @@ datasolutech (database)
         ├── discharge_date : date
         ├── medication : string
         └── test_results : string
-
+```
 Des index ont été créés pour faciliter la recherche dans cette base. Voici la liste:
 
 name, hospital, medical_condition, discharge_date, date_of_admission
