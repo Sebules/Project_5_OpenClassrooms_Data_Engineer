@@ -1,9 +1,14 @@
 services:
 
-  # Service MongoDB
+  # Service MongoDB    #https://hub.docker.com/_/mongo
   mongo_datasolutech:
     image: mongo:7 #Docker télécharge l’image officielle MongoDB
     container_name: mongodb_datasolutech #On donne un nom clair au conteneur MongoDB
+    restart: always
+    #environment:
+      #MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
+      #MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      
     volumes:
       - volume_mongodb:/data/db   # Les données MongoDB sont sauvegardées dans un volume Docker
     ports:

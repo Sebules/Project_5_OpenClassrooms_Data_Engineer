@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 # === CONFIG PATH ===
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  #ajouter le dossier parent du fichier courant au chemin de recherche des modules Python
 from fonctions.cleaning_df import (analyse_df, clean_columns_name, clean_columns_content,
-                        convert_type_date, convert_type_integer, convert_type_float)
+                        convert_type_date, convert_type_integer, convert_type_float,
+                        age_negatif, billing_negatif, dates_incoherence)
 
 load_dotenv()
 env = os.getenv("ENV_TEST", "local")
@@ -93,7 +94,7 @@ def test_age_negatif():
     #Arrange
     df = analyse_df(PATH_CSV)
     #Act
-    nb_age_negatif = len(df[df['Age']<0])
+    _,nb_age_negatif = age_negatif(df,'Age')
     #Assert
     assert nb_age_negatif == 0, "Vérifier les âges."
 
@@ -101,15 +102,7 @@ def test_billing_negatif():
     #Arrange
     df = analyse_df(PATH_CSV)
     #Act
-    nb_billing_negatif = len(df[df['Billing Amount']<0])
-
-    
-    if nb_billing_negatif > 0:
-        print("Nombre de factures négatives:",nb_billing_negatif)
-        print(df[df['Billing Amount']<0][['Name','Billing Amount']].head())
-        print("Vérifier les factures afin de savoir s'il s'agit d'une erreur ou d'un trop-perçu à rembourser")
-    else:
-        pass
+    _,nb_billing_negatif = billing_negatif(df, 'Billing Amount')
     #Assert
     assert True # c'est pour que le test passe. Le but ici est d'avertir s'il y a des factures négatives. 
 
@@ -117,7 +110,8 @@ def test_dates_incoherence():
     #Arrange
     df = analyse_df(PATH_CSV)
     #Act
-    nb_dates_incoherence = len(df[df['Date of Admission']>df['Discharge Date']])
+    _, nb_dates_incoherence = dates_incoherence(df,'Date of Admission','Discharge Date')
+    
     #Assert
     assert nb_dates_incoherence == 0, "Vérifier la cohérence des dates." 
 

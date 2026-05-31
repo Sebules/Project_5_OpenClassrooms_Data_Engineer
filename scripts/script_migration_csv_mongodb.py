@@ -21,7 +21,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from fonctions.parser_liste_env import parser_liste_env
 from fonctions.cleaning_df import (analyse_df, clean_columns_name, clean_columns_content,
-    convert_type_date, convert_type_float, convert_type_integer)
+                                    convert_type_date, convert_type_float, convert_type_integer,
+                                    age_negatif, billing_negatif, dates_incoherence)
 from fonctions.connexion_mongodb import connect_mongodb, disconnect_mongodb
 from fonctions.migration_to_mongodb import migrate_mongodb
 from fonctions.create_index_mongodb import create_index_mongodb
@@ -45,11 +46,19 @@ else:
 DB_NAME = os.getenv("DB_NAME")
 COLLECTION_NAME = os.getenv("COLLECTION_NAME")
 
+
+
 ## Colonnes pour le nettoyage   
 COLONNES_TEXTE = parser_liste_env("COLONNES_TEXTE") # sert à créer une liste car .getenv renvoie un string
 COLONNES_DATE = parser_liste_env("COLONNES_DATE")
 COLONNES_FLOAT = parser_liste_env("COLONNES_FLOAT")
 COLONNES_INT = parser_liste_env("COLONNES_INT")
+
+# Colonnes pour la cohérence des données
+COLONNE_AGE = os.getenv("COLONNE_AGE")
+COLONNE_BILL = os.getenv("COLONNE_BILL")
+COLONNE_DATE_1 = os.getenv("COLONNE_DATE_1")
+COLONNE_DATE_2 = os.getenv("COLONNE_DATE_2")
 
 ## Index à créer dans MongoDB
 INDEXES = parser_liste_env("INDEXES")
@@ -80,7 +89,9 @@ def clean_and_convert_df(df):
     df = convert_type_date(df,COLONNES_DATE)
     df = convert_type_float(df,COLONNES_FLOAT)
     df = convert_type_integer(df, COLONNES_INT)
-
+    df,_ = age_negatif(df, COLONNE_AGE)
+    df,_ = billing_negatif(df, COLONNE_BILL)
+    df,_ = dates_incoherence(df,COLONNE_DATE_1,COLONNE_DATE_2)
         
     print("Nettoyage et conversion terminés")
     print(df.head())
@@ -116,6 +127,7 @@ def main():
     ## Demande de confirmation
     message = """
     Regarder les informations du DataFrame et les premières lignes.
+    Regarder le retour obtenu sur les âges, les factures et les dates.
     Voulez-vous lancer la migration?
     """
     if not env=="docker":

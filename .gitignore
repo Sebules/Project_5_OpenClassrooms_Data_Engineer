@@ -1,3 +1,9 @@
 *.msi
 *.exe
 *.zip
+.venv/
+_pycache_/
+.pytest_cache/
+.pynb_checkpoints/
+.python-version
+ressources/

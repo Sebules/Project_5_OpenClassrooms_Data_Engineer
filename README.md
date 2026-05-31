@@ -1,12 +1,83 @@
 # Project\_5\_OpenClassrooms\_Data\_Engineer
 
+## Architecture du projet
+
+```
+Projet5
+│   .env
+│   .gitignore
+│   docker-compose.yml
+│   Dockerfile
+│   Dockerfile.test
+│   main.py
+│   notebook_projet_5.ipynb
+│   pyproject.toml
+│   README.md
+│   requirements.txt
+│   uv.lock
+│   __init__.py
+│
+├───donnees
+│   │   export.csv
+│   │   healthcare_dataset.csv
+│   │   healthcare_dataset_test.csv
+│
+├───fonctions
+│   │   cleaning_df.py
+│   │   connexion_mongodb.py
+│   │   create_index_mongodb.py
+│   │   crud_mongodb.py
+│   │   export_from_mongodb.py
+│   │   migration_to_mongodb.py
+│   │   parser_liste_env.py
+│   │   __init__.py
+│
+├───scripts
+│   │   script_migration_csv_mongodb.py
+│
+└───tests
+    │   test_cleaning_df.py
+    │   test_crud_mongodb.py
+    │   test_export_mongodb.py
+    │   test_migration_index_mongodb.py
+    │   __init__.py
+ 
+```
+L'objectif de ce projet est de pouvoir faire la migration d'une base de données dans MongoDB via un script Python. <br>
+Une base de données MongoDB se compose de plusieurs collections qui possèdent plusieurs documents.<br>
+Dans le cadre de ce projet, la base de données nommée `datasolutech` est composée d'une collection `healthcare_data` dont les documents se présentent sous la forme suivante:
+
+datasolutech (database)
+└── healthcare_data (collection)
+    └── document
+        ├── _id : ObjectId
+        ├── name : string
+        ├── age : int
+        ├── gender : string
+        ├── blood_type : string
+        ├── medical_condition : string
+        ├── date_of_admission : date
+        ├── doctor : string
+        ├── hospital : string
+        ├── insurance_provider : string
+        ├── billing_amount : float
+        ├── room_number : int
+        ├── admission_type : string
+        ├── discharge_date : date
+        ├── medication : string
+        └── test_results : string
+
+Des index ont été créés pour faciliter la recherche dans cette base. Voici la liste:
+
+name, hospital, medical_condition, discharge_date, date_of_admission
+
 ## Script de migration automatisée
 
 Le fichier `script_migration_csv_mongodb.py` automatise toutes les étapes de la migration du dataset CSV vers MongoDB.
 
 ### Conditions de fonctionnement
-Le script fonctionne à condition d'avoir complété les informations présentes dans le `.env`.
-Les fichiers suivants doivent être dans le même dossier que le script:
+Le script fonctionne à condition d'avoir complété les informations présentes dans le `.env`. <br>
+Les fichiers suivants sont utiles pour la bonne exécution du script. Copier donc l'ensemble des dossiers du projet avant de lancer le script :
 `.env`<br>
 `parser_liste_env.py` <br>
 `cleaning_df.py` <br>
@@ -34,10 +105,14 @@ La migration s'effectue en  étapes successives :
    - conversion des colonnes nombres décimaux (`convert_type_float`)
    - conversion des colonnes de nombres entiers (`convert_type_int`)
 
+   On regarde aussi la cohérence des données âge, factures et dates
+   - âges négatifs (`age_negatif`)
+   - factures négatives (`billing_negatif`)
+   - cohérence entre les dates d'admission et de sortie (`dates_incoherence`)
+
   
 3. **Connexion à MongoDB**<br>
-   Le script ouvre une connexion vers l'instance MongoDB locale via
-   `connect_mongodb`.
+   Le script ouvre une connexion vers l'instance MongoDB locale via `connect_mongodb`.
 
 4. **Migration des données et vérification post-migration**<br>
    La fonction `migrate_mongodb` insère le dataframe nettoyé dans la collection
@@ -46,20 +121,23 @@ La migration s'effectue en  étapes successives :
 
 5. **Création des index**<br>
    Des index sont créés sur les colonnes les plus utilisées dans les requêtes
-   ex: (('name', 'hospital', 'medical_condition', 'date_of_admission',
-   'discharge_date')) afin d'accélérer la lecture des données.
+   ex: (('name', 'hospital', 'medical_condition', 'date_of_admission','discharge_date')) afin d'accélérer la lecture des données.
 
 
 6. **Déconnexion**<br>
-   La connexion est fermée proprement via `disconnect_mongodb`.
+   La déconnexion de MongoDB est réalisée avec la fonction `disconnect_mongodb`.
+
+A la fin de migration, le message "Migration terminée." s'affiche.
 
 ### Lancer le script
 
-```bash
+Dans le terminal de commande, en se plaçant dans le dossier du projet, taper les lignes suivantes:
+
+```
 python script_migration_csv_mongodb.py
 ```
 
-## Tests automatisés
+## Tests automatisés en local
 
 
 Le projet contient une suite de tests automatisés avec 'pytest'.
@@ -104,6 +182,7 @@ Ces tests vérifient que la migration fonctionne réellement avec MongoDB :
 ### 3. Test d'export MongoDB
 
 Ce test vérifie que l'export de document en .csv fonctionne réellement.
+
 
 ### 4. Test CRUD MongoDB
 
@@ -188,7 +267,19 @@ Les données MongoDB sont sauvegardées dans un volume Docker
 volume_mongodb
 ```
 
-il utilise le `port  27017` pour l'accès en interne Docker et le `port 27018` pour l'accès en local via Compass.
+Il utilise le `port  27017` pour l'accès en interne Docker et le `port 27018` pour l'accès en local via MongoDB Compass.
+
+```
+ _______________________________________________
+|                                               |                _______________________________
+|         Docker Compose Network                |               |                               |
+|                                               |               |        Machine hôte           |	
+|  [migration] ---> mongo_datasolutech:27017    |     <--->     |       localhost:27018         |
+|                                               |  port 27018   |_______________________________|
+|_______________________________________________|
+           Communication interne                                  Accès externe (MongoDB Compass)
+
+```
 
 ### 2. Service test
 
