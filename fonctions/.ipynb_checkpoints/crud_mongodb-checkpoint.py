@@ -82,16 +82,14 @@ def delete_documents(client,name_database:str,name_collection:str, recherche:dic
         print('Le document supprimé avait pour id:',_id)
         return doc_deleted
     else:
-        docs_read = []
-        for doc in collection.find(recherche):
-            print(doc)
-        
+                  
         docs_read = [doc for doc in collection.find(recherche)]
             
         docs_id =[doc["_id"] for doc in docs_read]
         
         docs_deleted = collection.delete_many(recherche)
         print("Documents supprimés :", docs_deleted.deleted_count)
-        print('Les documents supprimés avaient pour id:',docs_id)
+        if docs_deleted.deleted_count<10:
+            print('Les documents supprimés avaient pour id:',docs_id)
         return docs_deleted
         

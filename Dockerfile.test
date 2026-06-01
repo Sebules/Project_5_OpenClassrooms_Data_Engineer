@@ -6,13 +6,8 @@ WORKDIR /app
 
 # Copier et installer les dépendances
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt #--no-cache-dir pour empêcher pip de garder son cache
+RUN pip install -r requirements.txt 
 
-# Copier tous les tests
-# COPY tests/ tests/
-# Copier toutes les fonctions
-# COPY fonctions/ fonctions/
-# COPY donnees/ donnees/
 # Copier tout le projet est préférable
 COPY . .
 

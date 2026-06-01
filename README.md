@@ -34,6 +34,8 @@ Projet5
 │
 ├───scripts
 │   │   script_migration_csv_mongodb.py
+|   |   script_export_csv_mongodb.py
+|   |   script_delete_collection_mongodb.py
 │
 └───tests
     │   test_cleaning_df.py
@@ -290,7 +292,7 @@ Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
 L'image Python associée a été construite à partir du Dockerfile.test.
 
-Ce service dépend du conteneur mongo_datasolutech
+Ce service dépend du service mongo_datasolutech
 
 
 ### 3. Service migration
@@ -301,4 +303,14 @@ Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
 L'image Python associée a été construite à partir du Dockerfile.
 
-Ce service dépend du conteneur mongo_datasolutech
+Ce service dépend des services mongo_datasolutech et test.
+
+### 4. Service export
+
+Ce service lance l'export des données qui ont été migrées dans MongoDB.
+
+Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
+
+L'image Python associée a été construite à partir du Dockerfile.export
+
+Ce service dépend du service migration

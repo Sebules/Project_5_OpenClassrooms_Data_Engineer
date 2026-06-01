@@ -9,7 +9,7 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # Copier le script de migration
-# COPY scripts/script_migration_csv_mongodb.py . (ne fonctionne pas car le script dépend de d'autres dossier)
+# COPY scripts/script_migration_csv_mongodb.py . (ne fonctionne pas car le script dépend d'autres dossier)
 # Copie tout le projet
 COPY . . 
 

@@ -23,9 +23,9 @@ services:
       dockerfile: Dockerfile.test # Docker construit l’image du script Python à partir du Dockerfile.test
     container_name: test_datasolutech
     depends_on:
-      - mongo_datasolutech # Cela indique que le conteneur mongo doit être démarré avant le conteneur migration
+      - mongo_datasolutech # Cela indique que le service mongo_datasolutech doit être démarré avant le service test
     volumes:
-      - ./donnees:/data #Le dossier local donnees est partagé avec le conteneur Python
+      - ./donnees:/donnees #Le dossier local donnees est partagé avec le conteneur Python
 
   # Service de migration
   migration:    
@@ -34,9 +34,25 @@ services:
     build: . # Docker construit l’image du script Python à partir du Dockerfile
     container_name: migration_datasolutech
     depends_on:
-      - mongo_datasolutech # Cela indique que le conteneur mongo doit être démarré avant le conteneur migration
+      - mongo_datasolutech # Cela indique que le service mongo_datasolutech doit être démarré avant le service migration
+      - test # Cela indique que le service test doit être démarré avant le service migration
+      
     volumes:
-      - ./donnees:/data #Le dossier local donnees est partagé avec le conteneur Python
+      - ./donnees:/donnees #Le dossier local donnees est partagé avec le conteneur Python
+
+  # Service export données
+  export:
+    env_file:
+      - .env     
+    build: 
+      context: . # le . signifie le dossier courant où se trouve le docker_compose.
+      dockerfile: Dockerfile.export # Docker construit l’image du script Python à partir du Dockerfile.test
+    container_name: export_datasolutech
+    depends_on:
+      - migration # Cela indique que le service migration doit être démarré avant le service export
+    volumes:
+      - ./donnees:/donnees #Le dossier local donnees est partagé avec le conteneur Python
+  
 
 volumes:
   

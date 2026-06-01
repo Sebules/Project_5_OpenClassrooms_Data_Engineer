@@ -1,0 +1,15 @@
+# Image de base Python
+FROM python:3.11-slim
+
+# Dossier de travail dans le conteneur
+WORKDIR /app
+
+# Copier et installer les dépendances
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copier tout le projet est préférable
+COPY . .
+
+#Commande exécutée au démarrage du conteneur
+CMD ["python","scripts/script_export_csv_mongodb.py"]

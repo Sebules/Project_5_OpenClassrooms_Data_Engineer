@@ -94,26 +94,35 @@ def test_age_negatif():
     #Arrange
     df = analyse_df(PATH_CSV)
     #Act
-    _,nb_age_negatif = age_negatif(df,'Age')
+    df,nb_age_negatif, df_age_negatif = age_negatif(df,'Age')
+    if not df_age_negatif.empty:
+        print(df_age_negatif.head())
+        print(df_age_negatif.info())
     #Assert
-    assert nb_age_negatif == 0, "Vérifier les âges."
+    assert df[df['Age']<0].empty, "Des lignes d'âge négatif sont encore présentes."
 
 def test_billing_negatif():
     #Arrange
     df = analyse_df(PATH_CSV)
     #Act
-    _,nb_billing_negatif = billing_negatif(df, 'Billing Amount')
+    df,nb_billing_negatif,df_billing_negatif = billing_negatif(df, 'Billing Amount')
+    if not df_billing_negatif.empty:
+        print(df_billing_negatif.head())
+        print(df_billing_negatif.info())
     #Assert
-    assert True # c'est pour que le test passe. Le but ici est d'avertir s'il y a des factures négatives. 
+    assert df[df['Billing Amount']<0].empty, "Des lignes avec des factures négatives sont encore présentes." 
 
 def test_dates_incoherence():
     #Arrange
     df = analyse_df(PATH_CSV)
     #Act
-    _, nb_dates_incoherence = dates_incoherence(df,'Date of Admission','Discharge Date')
-    
+    df, nb_dates_incoherence, df_dates_incoherence = dates_incoherence(df,'Date of Admission','Discharge Date')
+    if not df_dates_incoherence.empty:
+        print(df_dates_incoherence.head())
+        print(dfdates_incoherence.info())
+        
     #Assert
-    assert nb_dates_incoherence == 0, "Vérifier la cohérence des dates." 
+    assert df[df['Date of Admission']>df['Discharge Date']].empty, "Des lignes avec des dates non cohérentes sont encore présentes." 
 
 
 def main():
