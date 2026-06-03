@@ -51,7 +51,7 @@ def test_create_one_document():
              'test_results': 'normal'
         }
     #Act
-    doc_inserted = create_one_document(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,doc)
+    doc_inserted,collection,db = create_one_document(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,doc)
 
     #Assert
     assert doc_inserted.inserted_id is not None, "Document non créé."
@@ -113,10 +113,11 @@ def test_create_documents():
     }
 ]
     #Act
-    docs_inserted = create_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,docs)
+    docs_inserted,collection,db,nb_documents = create_documents(client,DB_NAME,COLLECTION_NAME_TEST_CRUD,docs)
 
     # Assert
     assert docs_inserted.inserted_ids is not None, "Documents non créés."
+    assert nb_documents!=0
 
 
 def test_read_one_document():

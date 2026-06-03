@@ -7,15 +7,20 @@ def create_one_document(client,name_database:str,name_collection:str,doc:dict):
     
     doc_inserted = collection.insert_one(doc)
     print(f"Le document avec l'id {doc_inserted.inserted_id} a été inséré dans la collection {name_collection}.")
-    return doc_inserted
+    return doc_inserted,collection,db
 
 def create_documents(client,name_database:str,name_collection:str,docs:list):
     db=client[name_database]
     collection = db[name_collection]
     
     docs_inserted = collection.insert_many(docs)
-    print(f"Les documents avec les ids {docs_inserted.inserted_ids} ont été insérés dans la collection {name_collection}.")
-    return docs_inserted
+    nb_documents = collection.count_documents({})
+    
+    if nb_documents < 20:
+        print(f"Les documents avec les ids {docs_inserted.inserted_ids} ont été insérés dans la collection {name_collection}.")
+    else:
+        print(f"Les documents ont été insérés dans la collection {name_collection}.")
+    return docs_inserted,collection,db, nb_documents
 
 
 ## READ

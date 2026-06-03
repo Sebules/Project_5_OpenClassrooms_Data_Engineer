@@ -1,6 +1,10 @@
 import pandas as pd
 from pymongo import MongoClient
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
+env = os.getenv("ENV_TEST", "local")
 
 def export_mongodb(client, name_database:str,name_collection:str,filtre:dict, limite:int|None):
     db=client[name_database]
@@ -16,8 +20,10 @@ def export_mongodb(client, name_database:str,name_collection:str,filtre:dict, li
     df = pd.DataFrame(data)
 
     # Export CSV
-    df.to_csv(f"/donnees/export_{name_collection}.csv", index=False, encoding="utf-8")
-
+    if env=="docker":
+        df.to_csv(f"/donnees/export_{name_collection}.csv", index=False, encoding="utf-8")
+    else:
+        df.to_csv(f"donnees/export_{name_collection}.csv", index=False, encoding="utf-8")
     print(f"L'export de la collection {name_collection} de la database {name_database} est réussi!")
 
     

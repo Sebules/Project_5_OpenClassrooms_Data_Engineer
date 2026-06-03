@@ -118,9 +118,12 @@ La migration s'effectue en  étapes successives :
    Le script ouvre une connexion vers l'instance MongoDB locale via `connect_mongodb`.
 
 4. **Migration des données et vérification post-migration**<br>
-   La fonction `migrate_mongodb` insère le dataframe nettoyé dans la collection
-   (ex: 'healthcare_data') de la base (ex: 'datasolutech').
+   La fonction `migrate_mongodb` insère le dataframe nettoyé dans la collection (ex: 'healthcare_data') de la base (ex: 'datasolutech'). <br>
    La fonction `migrate_mongodb` permet aussi de comparer le nombre de documents dans MongoDB et le nombre de lignes du CSV nettoyé après la migration.
+
+   A noter que les données invalides (âges négatifs, factures négatives, incohérence des dates) ne sont pas supprimées définitivement. Elles sont isolées dans des collections dédiées afin de permettre une analyse métier ultérieure.
+   
+
 
 5. **Création des index**<br>
    Des index sont créés sur les colonnes les plus utilisées dans les requêtes
@@ -237,7 +240,7 @@ Au lieu d'installer MongoDB et toutes les dépendances Python directement sur la
 
 Cela permet de partager plus facilement le projet et de le lancer avec les mêmes versions des outils.
 
----
+
 
 ## Différence entre un conteneur et une machine virtuelle
 
@@ -247,7 +250,7 @@ Un conteneur Docker contient seulement l'application et ses dépendances nécess
 
 Un conteneur est donc généralement plus léger et plus rapide à démarrer qu'une machine virtuelle.
 
----
+
 
 ## Architecture Docker du projet
 
