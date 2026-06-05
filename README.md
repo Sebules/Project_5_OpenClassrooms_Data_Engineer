@@ -90,7 +90,7 @@ Les fichiers suivants sont utiles pour la bonne exécution du script. Copier don
 
 ### Logique de la migration
 
-La migration s'effectue en  étapes successives :
+La migration s'effectue en plusieurs étapes successives :
 
 1. **Lecture et vérification du fichier CSV**<br>
    Le script charge le fichier (ex: `healthcare_dataset.csv`) à l'aide de pandas.
@@ -127,20 +127,20 @@ La migration s'effectue en  étapes successives :
 
 5. **Création des index**<br>
    Des index sont créés sur les colonnes les plus utilisées dans les requêtes
-   ex: (('name', 'hospital', 'medical_condition', 'date_of_admission','discharge_date')) afin d'accélérer la lecture des données.
+   ex: ('name', 'hospital', 'medical_condition', 'date_of_admission','discharge_date') afin d'accélérer la lecture des données.
 
 
 6. **Déconnexion**<br>
    La déconnexion de MongoDB est réalisée avec la fonction `disconnect_mongodb`.
 
-A la fin de migration, le message "Migration terminée." s'affiche.
+A la fin de la migration, le message "Migration terminée." s'affiche.
 
 ### Lancer le script
 
 Dans le terminal de commande, en se plaçant dans le dossier du projet, taper les lignes suivantes:
 
 ```
-python script_migration_csv_mongodb.py
+python scripts\script_migration_csv_mongodb.py
 ```
 
 ## Tests automatisés en local
@@ -148,7 +148,7 @@ python script_migration_csv_mongodb.py
 
 Le projet contient une suite de tests automatisés avec 'pytest'.
 
-Les tests sont divisés en trois catégories :
+Les tests sont divisés en quatre catégories :
 
 ### 1. Test d'intégrité et transformation du CSV
 
@@ -217,7 +217,7 @@ pip install -r requirements.txt
 
 Les tests sont automatisés avec pytest.
 
-Pour lancer l'ensemble des tests, taper après s'être placé dans le répertoire où sont les fichiers tests:
+Pour lancer l'ensemble des tests, taper dans l'invite de commande, après s'être placé dans le répertoire du projet:
 
 ```
 
@@ -226,7 +226,7 @@ pytest -v
 ```
 ## Déploiement avec Docker
 
-Ce projet utilise Docker pour exécuter MongoDB et le script de migration dans des conteneurs séparés.
+Ce projet utilise Docker pour exécuter MongoDB et le script de test, de migration, et d'export dans des conteneurs séparés.
 
 ### Pourquoi utiliser Docker ?
 
@@ -236,7 +236,8 @@ Au lieu d'installer MongoDB et toutes les dépendances Python directement sur la
 
 - un conteneur MongoDB
 - un conteneur Python pour exécuter les tests 
-- un conteneur Python pour exécuter le script de migration.
+- un conteneur Python pour exécuter le script de migration
+- un conteneur Python pour exécuter le script d'export.
 
 Cela permet de partager plus facilement le projet et de le lancer avec les mêmes versions des outils.
 
@@ -300,13 +301,14 @@ Ce service dépend du service mongo_datasolutech
 
 ### 3. Service migration
 
-Ce service lance la migration vers la base de donnnées définie plus haut.
+Ce service lance la migration vers la base de données définie plus haut.
 
 Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
 L'image Python associée a été construite à partir du Dockerfile.
 
 Ce service dépend des services mongo_datasolutech et test.
+
 
 ### 4. Service export
 
