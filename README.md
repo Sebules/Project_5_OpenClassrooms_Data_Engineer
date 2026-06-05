@@ -5,11 +5,12 @@
 ```
 Projet5
 │   .env
+|   .env.secrets
 │   .gitignore
 │   docker-compose.yml
 │   Dockerfile
 │   Dockerfile.test
-│   main.py
+│   mongo-init.js
 │   notebook_projet_5.ipynb
 │   pyproject.toml
 │   README.md
@@ -18,7 +19,11 @@ Projet5
 │   __init__.py
 │
 ├───donnees
-│   │   export.csv
+│   │   export_healthcare_data.csv
+|   |   export_healthcare_data_age_negatif.csv
+|   |   export_healthcare_data_bill_negatif.csv
+|   |   export_healthcare_data_dates_incoherence.csv
+|   |   export_healthcare_data_test_export.csv
 │   │   healthcare_dataset.csv
 │   │   healthcare_dataset_test.csv
 │
@@ -33,6 +38,7 @@ Projet5
 │   │   __init__.py
 │
 ├───scripts
+|   |   script_create_user_mongodb_local.py
 │   │   script_migration_csv_mongodb.py
 |   |   script_export_csv_mongodb.py
 |   |   script_delete_collection_mongodb.py
@@ -152,22 +158,14 @@ Les tests sont divisés en quatre catégories :
 
 ### 1. Test d'intégrité et transformation du CSV
 
-le test test_cleaning_df.py permet de vérifier que le fichier source est exploitable avant la migration :
-
+Le test test_cleaning_df.py permet de vérifier que le fichier source est exploitable avant la migration :<br>
   - absence de dataset vide
-
   - absence de colonnes avec entièrement de valeurs manquantes
-
   - absence de doublons complets
-
   - cohérence des âges
-
   - cohérence des montants de facturation
-
   - cohérence des dates d'admission et de sortie
-
   - nettoyage des noms de colonnes
-
   - conversion des types
 
 
@@ -175,13 +173,9 @@ le test test_cleaning_df.py permet de vérifier que le fichier source est exploi
 ### 2. Tests d'intégration MongoDB
 
 
-Ces tests vérifient que la migration fonctionne réellement avec MongoDB :
-
-
+Ces tests vérifient que la migration fonctionne réellement avec MongoDB : <br>
   - conversion d'un DataFrame pandas en liste de documents
-
   - le nombre de documents insérés correspond au nombre de lignes CSV
-
   - les index nécessaires sont créés
 
 
@@ -205,7 +199,6 @@ Cela évite de modifier la collection principale du projet.
 
 
 ## Installer les dépendances
-
 
 ```
 pip install -r requirements.txt
@@ -319,3 +312,42 @@ Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 L'image Python associée a été construite à partir du Dockerfile.export
 
 Ce service dépend du service migration
+
+
+
+## Sécurité : authentification et rôles utilisateurs
+Le projet utilise une base de données MongoDB contenant des données de santé.<br>
+Afin de garantir la sécurité des données, l’accès à MongoDB est protégé par un système d’authentification avec des utilisateurs et des rôles.
+
+### Authentification
+L'accès à la base MongoDB est protégé par une authentification (mécanisme SCRAM-SHA-256). Les mots de passe ne sont jamais stockés en clair : MongoDB stocke uniquement un hash.
+
+L'authentification est activée via les variables d'environnement `MONGO_INITDB_ROOT_USERNAME` et `MONGO_INITDB_ROOT_PASSWORD` dans le `docker-compose.yml`.
+
+### Rôles utilisateurs
+L'objectif est d’appliquer le principe du moindre privilège : chaque utilisateur possède uniquement les droits nécessaires à son usage. 
+
+Trois rôles sont définis sur la base `datasolutech` :
+
+```
+| Utilisateur          | Rôle MongoDB | Droits                                |
+|----------------------|--------------|---------------------------------------|
+| admin_datasolutech   | dbOwner      | Administration complète               |
+| app_migration        | readWrite    | Lecture/écriture (migration et export)|
+| analyste_lecture     | read         | Lecture seule (analyse)               |
+
+```
+L'utilisateur `root` a lui les droits sur le conteneur `mongodb_datasolutech` entier.
+
+Voir le fichier `.env.secrets` pour les mots de passe.
+<ins>A noter qu'il s'agit d'une version de démonstration. Pour un projet en production, `.env.secrets`, `script_create_user_mongodb_local.py` et `mongo-init.js` ne doivent pas être mis sur GitHub.</ins> 
+
+Le projet utilise le mécanisme officiel proposé par l'image Docker MongoDB : tout fichier `.js` placé dans le répertoire `/docker-entrypoint-initdb.d` du conteneur est exécuté automatiquement au premier démarrage (volume vide).
+
+Cela permet :
+- d'automatiser la création des utilisateurs et rôles,
+- de garantir la reproductibilité de l'environnement,
+- d'éviter toute intervention manuelle après `docker compose up`.
+
+Le script du fichier `mongo-init.js` ne s'exécute qu'à la création du conteneur. Pour rajouter des utilisateurs plus tard, c'est l'utilisateur root qui peut le faire.
+

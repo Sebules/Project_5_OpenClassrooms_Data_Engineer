@@ -14,18 +14,35 @@ from fonctions.connexion_mongodb import connect_mongodb
 from fonctions.cleaning_df import analyse_df
 from fonctions.create_index_mongodb import create_index_mongodb
 
-load_dotenv()
-env = os.getenv("ENV_TEST", "local")
+load_dotenv(".env") #charge le fichier .env
+load_dotenv(".env.secrets") #charge le fichier .env.secrets
+
+## PARAMÈTRES POUR LA MIGRATION
+env = os.getenv("ENV", "local")
 
 if env == "docker":
     PATH_CSV = os.getenv("DOCKER_PATH_CSV")
-    MONGO_URI = os.getenv("DOCKER_MONGO_URI")
 else:
     PATH_CSV = os.getenv("LOCAL_PATH_CSV")
-    MONGO_URI = os.getenv("LOCAL_MONGO_URI")
+#ajout du DOCKER_PATH_CSV pour que cela fonctionne aussi avec Docker.
+
+
+# Chargement des données d'identification
+user = os.getenv("APP_MIGRATION_USER")
+password = os.getenv("APP_MIGRATION_PASSWORD")
+if env=="docker":
+    host = os.getenv("MONGO_HOST_DOCKER")
+else:
+    host = os.getenv("MONGO_HOST_LOCAL")
+
+port = os.getenv("MONGO_PORT")
+
+DB_NAME = os.getenv("DB_NAME")
+MONGO_URI = f"mongodb://{user}:{password}@{host}:{port}/{DB_NAME}?authSource={DB_NAME}"
+  
     
 COLLECTION_NAME_TEST_MIGRATION = os.getenv("COLLECTION_NAME_TEST_MIGRATION")
-DB_NAME = os.getenv("DB_NAME")
+
 
 
 client = connect_mongodb(MONGO_URI)

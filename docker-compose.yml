@@ -5,32 +5,41 @@ services:
     image: mongo:7 #Docker télécharge l’image officielle MongoDB
     container_name: mongodb_datasolutech #On donne un nom clair au conteneur MongoDB
     restart: always
-    #environment:
-      #MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER}
-      #MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    env_file:
+      - .env.secrets # Pour récupérer les mots de passe
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: mdp_root
       
     volumes:
       - volume_mongodb:/data/db   # Les données MongoDB sont sauvegardées dans un volume Docker
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro # Le script mongo-init.js est placé dans /docker-entrypoint-initdb.d/ pour être exécuté à l'initialisation du conteneur.
     ports:
       - "27018:27017" #Cela rend MongoDB accessible depuis sur le port 27017
+    networks:
+      - network_datasolutech
 
   # Service de test
   test:
     env_file:
-      - .env     
+      - .env  # Pour les variables utiles au script
+      - .env.secrets # Pour les mots de passe   
     build: 
       context: . # le . signifie le dossier courant où se trouve le docker_compose.
       dockerfile: Dockerfile.test # Docker construit l’image du script Python à partir du Dockerfile.test
     container_name: test_datasolutech
     depends_on:
-      - mongo_datasolutech # Cela indique que le service mongo_datasolutech doit être démarré avant le service test
+      - mongo_datasolutech # Cela indique que le service mongo_datasolutech doit être démarré avant le service test         
     volumes:
       - ./donnees:/donnees #Le dossier local donnees est partagé avec le conteneur Python
+    networks:
+      - network_datasolutech    
 
   # Service de migration
   migration:    
     env_file:
-      - .env     
+      - .env  # Pour les variables utiles au script
+      - .env.secrets # Pour les mots de passe   
     build: . # Docker construit l’image du script Python à partir du Dockerfile
     container_name: migration_datasolutech
     depends_on:
@@ -39,11 +48,14 @@ services:
       
     volumes:
       - ./donnees:/donnees #Le dossier local donnees est partagé avec le conteneur Python
+    networks:
+      - network_datasolutech 
 
   # Service export données
   export:
     env_file:
-      - .env     
+      - .env  # Pour les variables utiles au script
+      - .env.secrets # Pour les mots de passe    
     build: 
       context: . # le . signifie le dossier courant où se trouve le docker_compose.
       dockerfile: Dockerfile.export # Docker construit l’image du script Python à partir du Dockerfile.test
@@ -52,8 +64,15 @@ services:
       - migration # Cela indique que le service migration doit être démarré avant le service export
     volumes:
       - ./donnees:/donnees #Le dossier local donnees est partagé avec le conteneur Python
-  
+    networks:
+      - network_datasolutech   
+
 
 volumes:
   
   volume_mongodb: # volume pour les données MongoDB
+
+
+networks:
+  network_datasolutech:
+    

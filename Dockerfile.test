@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 #Commande exécutée au démarrage du conteneur
-CMD ["pytest","-v"]
+CMD ["pytest", "-v"]

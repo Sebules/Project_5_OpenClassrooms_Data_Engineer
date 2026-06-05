@@ -13,7 +13,7 @@ from fonctions.connexion_mongodb import connect_mongodb, disconnect_mongodb
 from fonctions.crud_mongodb import delete_documents
 
 
-load_dotenv() #charge le fichier .env
+load_dotenv(".env") #charge le fichier .env
 
 ## PARAMÈTRES POUR LA MIGRATION
 env = os.getenv("ENV", "local")
@@ -24,12 +24,19 @@ else:
     PATH_CSV = os.getenv("LOCAL_PATH_CSV")
 #ajout du DOCKER_PATH_CSV pour que cela fonctionne aussi avec Docker.
 
-if env == "docker":
-    MONGO_URI = os.getenv("DOCKER_MONGO_URI")
+# Chargement des données d'identification
+user = os.getenv("APP_MIGRATION_USER")
+password = os.getenv("APP_MIGRATION_PASSWORD")
+if env=="docker":
+    host = os.getenv("MONGO_HOST_DOCKER")
 else:
-    MONGO_URI = os.getenv("LOCAL_MONGO_URI")
-    
+    host = os.getenv("MONGO_HOST_LOCAL")
+
+port = os.getenv("MONGO_PORT")
+
 DB_NAME = os.getenv("DB_NAME")
+MONGO_URI = f"mongodb://{user}:{password}@{host}:{port}/{DB_NAME}?authSource={DB_NAME}"
+
 COLLECTION_NAME = os.getenv("COLLECTION_NAME")
 
 

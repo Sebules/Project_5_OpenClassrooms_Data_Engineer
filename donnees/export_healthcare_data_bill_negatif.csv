@@ -1,1 +1,107 @@
-
+name,age,gender,blood_type,medical_condition,date_of_admission,doctor,hospital,insurance_provider,billing_amount,room_number,admission_type,discharge_date,medication,test_results
+ashley erickson,32,female,AB-,cancer,2019-11-05,gerald hooper,"and johnson moore, branch",aetna,-502.51,376,urgent,2019-11-23,penicillin,normal
+christopher weiss,49,female,AB-,asthma,2023-02-16,kelly thompson,hunter-hughes,aetna,-1018.25,204,elective,2023-03-09,penicillin,inconclusive
+ashley warner,60,male,A+,hypertension,2021-12-21,andrea bentley,"and wagner, lee klein",aetna,-306.36,426,elective,2022-01-11,ibuprofen,normal
+jay galloway,74,female,O+,asthma,2021-01-20,debra everett,group peters,blue cross,-109.1,381,emergency,2021-02-09,ibuprofen,abnormal
+joshua williamson,72,female,B-,diabetes,2021-03-21,wendy ramos,"and huff reeves, dennis",blue cross,-576.73,369,urgent,2021-04-17,aspirin,abnormal
+scott vazquez,74,male,B+,diabetes,2023-04-12,edward yates,james ltd,medicare,-135.99,445,elective,2023-05-03,ibuprofen,abnormal
+carol anderson,39,female,B-,hypertension,2020-04-03,dr. patrick hines,"carter carter, and patterson",blue cross,-370.98,203,elective,2020-04-10,ibuprofen,abnormal
+mr. christopher alvarado,77,male,AB+,obesity,2022-06-03,mr. dean guzman dds,johnson inc,blue cross,-1310.27,257,elective,2022-06-13,paracetamol,inconclusive
+alexandra khan,32,male,AB+,arthritis,2022-07-14,michael vaughn,"bowen lopez, and terry",aetna,-692.41,372,elective,2022-07-19,lipitor,abnormal
+joseph cox,23,male,AB-,diabetes,2019-10-13,peter smith,inc ward,blue cross,-353.87,271,elective,2019-10-25,lipitor,inconclusive
+mitchell maldonado,41,female,A+,asthma,2022-06-22,melissa woods,richardson-bennett,medicare,-378.96,414,urgent,2022-06-30,lipitor,inconclusive
+julie christian,28,female,AB+,diabetes,2019-06-30,kathryn ray,group mcconnell,cigna,-367.2,387,urgent,2019-07-09,lipitor,normal
+alexander gardner,45,male,AB-,cancer,2023-03-23,tracy brown,maldonado group,cigna,-198.28,329,elective,2023-04-09,aspirin,abnormal
+angela allen,83,female,B-,diabetes,2019-08-21,robert kennedy,"brown and randolph, young",cigna,-43.1,189,urgent,2019-08-24,penicillin,abnormal
+alan scott,48,female,A-,asthma,2019-10-23,jacob kirby,lopez-hughes,medicare,-857.13,309,urgent,2019-11-18,paracetamol,abnormal
+brandon hall,27,male,B+,hypertension,2020-01-29,cindy smith,sons and evans,aetna,-155.08,368,urgent,2020-02-01,aspirin,abnormal
+lucas sullivan,31,female,A-,obesity,2022-04-05,brenda burke,sons and harris,unitedhealthcare,-211.72,496,emergency,2022-04-11,aspirin,abnormal
+rebecca cline,39,female,B+,asthma,2020-05-07,rebecca miller,"stout dougherty, and washington",cigna,-656.15,195,emergency,2020-05-17,ibuprofen,abnormal
+valerie allen,82,female,B-,diabetes,2021-02-05,judy massey,"hebert, brown kim and",medicare,-228.0,118,urgent,2021-02-25,aspirin,inconclusive
+brian young,85,male,O-,cancer,2021-04-13,dr. jenna caldwell,hampton llc,cigna,-147.07,133,emergency,2021-04-20,aspirin,abnormal
+jennifer cruz,19,female,A+,hypertension,2021-06-09,samantha lloyd,ruiz and sons,blue cross,-124.76,207,urgent,2021-06-28,aspirin,normal
+elaine tran,32,female,O-,arthritis,2022-09-15,alicia thompson,ramirez-thompson,unitedhealthcare,-75.82,482,elective,2022-10-12,lipitor,abnormal
+lisa robinson,29,female,B-,arthritis,2022-12-29,nancy thompson,chandler plc,cigna,-26.11,198,emergency,2023-01-12,penicillin,normal
+ashley ramsey,53,male,AB+,cancer,2019-05-30,james smith,barker-mitchell,blue cross,-135.72,235,elective,2019-06-09,penicillin,inconclusive
+john ferrell,58,female,O-,hypertension,2019-05-20,randy calderon,inc spencer,medicare,-308.58,394,emergency,2019-05-27,paracetamol,inconclusive
+christopher hamilton,43,male,O-,asthma,2023-01-09,pamela obrien,brock group,medicare,-214.61,398,elective,2023-01-25,ibuprofen,inconclusive
+anthony miller,50,female,O+,arthritis,2020-01-17,jill raymond,"pitts, hernandez and wilson",cigna,-892.27,359,emergency,2020-01-31,aspirin,abnormal
+lisa clark,77,female,O-,cancer,2023-03-06,andrea craig,walters plc,aetna,-556.12,309,urgent,2023-03-11,ibuprofen,abnormal
+michael castaneda,85,female,A+,diabetes,2023-02-14,amber ochoa,"huber, rodriguez chapman and",medicare,-224.63,179,emergency,2023-03-09,penicillin,inconclusive
+joseph martinez,66,male,B-,asthma,2021-01-05,david flores,"king and french ramirez,",unitedhealthcare,-32.35,415,urgent,2021-01-20,aspirin,normal
+jason owen,57,female,B+,hypertension,2020-01-27,matthew clark,crawford group,blue cross,-100.6,354,elective,2020-02-16,paracetamol,inconclusive
+nicole hurst dvm,43,female,AB+,obesity,2021-04-19,leah russell,warner-watts,unitedhealthcare,-211.28,213,urgent,2021-04-23,paracetamol,inconclusive
+gabrielle decker,69,male,AB-,arthritis,2022-11-07,william krause,diaz-bishop,cigna,-676.85,354,urgent,2022-11-30,penicillin,normal
+susan ellis,28,male,O+,hypertension,2019-12-05,rebecca valentine,anderson-ball,unitedhealthcare,-130.87,451,elective,2020-01-02,lipitor,inconclusive
+heather bryant,50,female,A+,asthma,2021-02-26,morgan scott,scott group,unitedhealthcare,-233.93,289,emergency,2021-03-07,penicillin,inconclusive
+ricardo reynolds,49,female,O-,obesity,2019-11-20,deborah cox,"wyatt murphy, and gonzales",aetna,-124.65,222,emergency,2019-12-20,lipitor,normal
+matthew simmons,47,female,A-,cancer,2023-06-03,jacob russo,smith group,aetna,-68.32,288,emergency,2023-06-20,ibuprofen,normal
+whitney cooper,65,male,AB-,obesity,2019-08-20,amber walker,and sons burns,unitedhealthcare,-577.73,357,emergency,2019-09-02,aspirin,normal
+john young,35,female,AB-,hypertension,2023-10-25,joshua floyd,"castro robertson, and cook",blue cross,-43.29,389,elective,2023-11-12,aspirin,normal
+mark stone,33,male,A+,diabetes,2022-10-10,stephanie garcia,cole-parks,cigna,-53.83,457,urgent,2022-10-23,aspirin,inconclusive
+frederick moore,83,male,AB-,obesity,2019-10-15,mary johnson,miller group,cigna,-532.76,132,urgent,2019-11-12,aspirin,normal
+stephen chan,71,male,A+,cancer,2024-03-05,allen mcgrath,jones-smith,cigna,-599.27,119,urgent,2024-03-12,penicillin,abnormal
+elizabeth thompson,54,female,A-,cancer,2023-12-11,jessica mills dds,"fitzpatrick, nielsen and mcdonald",aetna,-887.02,402,elective,2023-12-13,ibuprofen,normal
+terry wilson,39,male,O-,diabetes,2024-02-19,diana smith,"medina and elliott stewart,",aetna,-1316.62,491,emergency,2024-03-20,paracetamol,inconclusive
+patrick perry,44,male,B-,hypertension,2022-03-26,miss sandra brooks,foster-clements,unitedhealthcare,-75.62,340,urgent,2022-03-29,aspirin,inconclusive
+juan osborne,20,female,AB+,diabetes,2021-04-28,joe lawson,garcia-erickson,blue cross,-317.63,324,emergency,2021-05-20,ibuprofen,inconclusive
+brenda parrish,59,male,B+,diabetes,2024-04-14,sherry brown,"and dennis, mcguire johnston",unitedhealthcare,-90.08,221,emergency,2024-04-22,penicillin,abnormal
+melissa diaz,82,male,A-,hypertension,2019-06-06,stephen levy,hill-salinas,aetna,-23.87,453,emergency,2019-07-06,ibuprofen,abnormal
+marissa rodriguez,27,male,B+,arthritis,2022-08-20,denise jacobs,"kim and ellis, bennett",cigna,-600.5,241,elective,2022-09-11,paracetamol,inconclusive
+mrs. michelle clark dvm,31,female,A-,asthma,2019-08-23,denise gilbert,bruce group,cigna,-952.83,136,urgent,2019-09-14,penicillin,normal
+mrs. andrea davis phd,25,female,A+,hypertension,2024-03-26,brian alvarado,"poole, poole mendoza and",aetna,-492.18,372,emergency,2024-04-22,aspirin,inconclusive
+william garcia,51,female,B-,obesity,2020-03-26,natalie medina,"and wright, pham nguyen",medicare,-855.8,437,emergency,2020-03-29,lipitor,normal
+daniel drake,67,female,B+,hypertension,2020-04-24,brett ray,carr ltd,aetna,-591.92,426,elective,2020-04-26,lipitor,abnormal
+alexander martin,46,male,A+,hypertension,2021-09-24,tracy smith,"carter, and nguyen snow",unitedhealthcare,-38.97,401,emergency,2021-09-26,lipitor,inconclusive
+michael matthews,76,male,A-,obesity,2019-07-16,sierra quinn,hall plc,blue cross,-271.72,345,elective,2019-08-15,aspirin,inconclusive
+madison thomas,71,female,AB+,obesity,2019-05-24,mrs. christina willis md,"logan caldwell, and chavez",aetna,-557.01,173,urgent,2019-06-20,paracetamol,abnormal
+walter french,78,female,A-,asthma,2023-08-05,jeanette rodriguez,lyons-casey,unitedhealthcare,-136.16,347,emergency,2023-08-30,aspirin,abnormal
+craig salazar,19,female,O+,diabetes,2022-01-18,heidi williams,group miller,unitedhealthcare,-37.27,409,elective,2022-01-26,aspirin,abnormal
+molly tapia,78,female,AB-,hypertension,2024-04-15,steven clements,"and rosales, macdonald hanson",unitedhealthcare,-230.58,211,elective,2024-05-05,penicillin,inconclusive
+karen williams,31,female,AB-,asthma,2021-10-07,danny french,smith-cannon,cigna,-407.8,494,emergency,2021-10-15,aspirin,normal
+calvin campos,26,male,AB-,cancer,2023-12-15,eric mccoy,clements-bowman,medicare,-1277.65,339,elective,2024-01-13,ibuprofen,normal
+donna proctor,32,female,O+,obesity,2023-11-28,ronald mcdonald,jones plc,aetna,-786.62,435,elective,2023-12-28,paracetamol,abnormal
+joseph stevens,75,female,O+,obesity,2023-01-30,john watson,schneider and sons,cigna,-967.59,476,elective,2023-02-13,ibuprofen,normal
+elizabeth flores,57,female,A-,diabetes,2023-06-26,christina roberts,"vincent bailey and williams,",cigna,-860.62,219,urgent,2023-07-09,lipitor,normal
+matthew green,39,male,O-,obesity,2022-12-20,rita mccarty,"rogers watts, taylor and",aetna,-1015.7,208,elective,2023-01-16,paracetamol,inconclusive
+susan ellison,60,female,B-,asthma,2022-08-28,vincent cox,johnson-todd,medicare,-416.91,365,urgent,2022-09-08,aspirin,abnormal
+timothy ford,47,male,AB-,diabetes,2020-08-08,steven kirby,anderson-moore,unitedhealthcare,-97.85,169,elective,2020-08-23,paracetamol,inconclusive
+madeline thomas,32,female,O-,arthritis,2022-02-08,carmen mann,moore plc,aetna,-964.8,122,urgent,2022-02-25,paracetamol,normal
+bryan rios,85,female,A-,cancer,2022-04-10,timothy marshall,miller plc,cigna,-311.76,471,urgent,2022-04-11,paracetamol,abnormal
+johnathan smith,18,female,A-,arthritis,2020-11-24,sara watson,williams ltd,cigna,-85.48,349,urgent,2020-12-03,paracetamol,normal
+veronica kelley,20,male,O-,cancer,2021-07-12,amanda ramirez,roberts-king,medicare,-808.47,221,emergency,2021-07-28,paracetamol,inconclusive
+john hahn,80,male,O-,asthma,2024-02-24,mark hines,ltd wilson,cigna,-1520.42,403,elective,2024-03-14,lipitor,abnormal
+john moore,65,female,AB-,asthma,2023-12-28,amy burnett,group hansen,aetna,-1306.66,387,urgent,2024-01-20,lipitor,inconclusive
+amanda morgan,35,female,AB+,hypertension,2020-09-27,gregory figueroa,petersen-hernandez,medicare,-652.18,144,elective,2020-10-20,penicillin,abnormal
+dr. michael mckay,67,male,O+,cancer,2019-05-31,dawn navarro,"mcconnell and rios, clark",unitedhealthcare,-199.66,122,urgent,2019-06-12,ibuprofen,abnormal
+betty moore md,84,female,A+,obesity,2022-10-13,crystal baker,aguilar inc,blue cross,-529.96,409,urgent,2022-10-26,aspirin,inconclusive
+lisa kelley,29,female,O-,cancer,2019-12-30,david clarke,phillips ltd,unitedhealthcare,-872.23,115,elective,2020-01-03,penicillin,inconclusive
+jillian shepherd,84,female,O-,diabetes,2019-12-28,george king,jones group,unitedhealthcare,-279.84,142,emergency,2020-01-07,penicillin,inconclusive
+susan solis,40,female,A+,cancer,2020-04-26,frances rosales,ltd williams,cigna,-226.38,132,emergency,2020-04-29,lipitor,inconclusive
+joseph robbins,71,male,O-,hypertension,2024-02-10,stacey davenport,vaughn plc,unitedhealthcare,-1428.84,205,urgent,2024-02-29,ibuprofen,abnormal
+erica woods,57,male,B-,cancer,2022-10-08,nathan gutierrez,llc carpenter,cigna,-1049.01,146,urgent,2022-10-14,lipitor,normal
+daniel david,32,male,O+,obesity,2022-05-25,elizabeth smith,"estes and garza, carroll",aetna,-36.22,167,emergency,2022-06-22,penicillin,inconclusive
+brian jones,85,male,A+,arthritis,2020-03-25,bonnie smith,"lawrence and cooper saunders,",aetna,-1130.0,480,elective,2020-04-01,ibuprofen,normal
+ryan potter,53,male,A+,diabetes,2022-02-04,stephen jensen,thomas sons and,medicare,-614.95,223,urgent,2022-03-01,penicillin,abnormal
+thomas pratt,57,female,A+,obesity,2021-03-27,eduardo hall,"and wade, huffman arnold",medicare,-228.55,496,emergency,2021-04-22,paracetamol,inconclusive
+john harris,50,male,A-,asthma,2019-11-27,robert moreno,weiss-mills,medicare,-82.77,434,urgent,2019-12-14,penicillin,inconclusive
+james byrd,79,male,O+,diabetes,2023-12-25,adam pitts,ayers-smith,cigna,-483.71,446,urgent,2023-12-29,penicillin,abnormal
+james luna,64,female,AB-,cancer,2022-09-22,todd becker,juarez-clark,aetna,-2008.49,162,urgent,2022-10-20,ibuprofen,abnormal
+holly rodriguez,43,male,O+,obesity,2020-05-11,brett johnson,morales-pacheco,medicare,-164.3,191,emergency,2020-05-28,penicillin,abnormal
+wanda chase,60,male,O-,hypertension,2021-03-26,justin gibbs,"jimenez and ross mason,",medicare,-820.16,357,emergency,2021-04-12,lipitor,inconclusive
+krista conley,21,female,O+,diabetes,2021-01-03,elizabeth anderson,ltd mcneil,aetna,-289.8,340,urgent,2021-01-14,lipitor,inconclusive
+emma savage,57,male,AB+,hypertension,2021-09-05,maria johnson,armstrong llc,blue cross,-1660.01,193,elective,2021-10-02,penicillin,normal
+heather rios,81,female,A-,asthma,2021-08-19,morgan jackson,"jones, edwards jacobs and",blue cross,-378.75,249,urgent,2021-08-23,lipitor,abnormal
+aaron flowers,42,male,A+,asthma,2020-06-03,ronald patton,"brown, santos and howard",medicare,-378.7,115,elective,2020-06-17,paracetamol,inconclusive
+brandon davis,45,male,B+,obesity,2022-03-26,kathleen perry,llc williams,medicare,-444.04,166,urgent,2022-04-21,penicillin,abnormal
+charles phillips,20,female,A-,asthma,2021-02-14,jose martinez,"brady ward, wallace and",medicare,-824.23,399,elective,2021-03-11,lipitor,abnormal
+terry wilson,43,male,O-,diabetes,2024-02-19,diana smith,"medina and elliott stewart,",aetna,-1316.62,491,emergency,2024-03-20,paracetamol,inconclusive
+lisa robinson,33,female,B-,arthritis,2022-12-29,nancy thompson,chandler plc,cigna,-26.11,198,emergency,2023-01-12,penicillin,normal
+thomas pratt,61,female,A+,obesity,2021-03-27,eduardo hall,"and wade, huffman arnold",medicare,-228.55,496,emergency,2021-04-22,paracetamol,inconclusive
+elizabeth thompson,56,female,A-,cancer,2023-12-11,jessica mills dds,"fitzpatrick, nielsen and mcdonald",aetna,-887.02,402,elective,2023-12-13,ibuprofen,normal
+matthew simmons,43,female,A-,cancer,2023-06-03,jacob russo,smith group,aetna,-68.32,288,emergency,2023-06-20,ibuprofen,normal
+mr. christopher alvarado,74,male,AB+,obesity,2022-06-03,mr. dean guzman dds,johnson inc,blue cross,-1310.27,257,elective,2022-06-13,paracetamol,inconclusive
+gabrielle decker,66,male,AB-,arthritis,2022-11-07,william krause,diaz-bishop,cigna,-676.85,354,urgent,2022-11-30,penicillin,normal
+ashley warner,55,male,A+,hypertension,2021-12-21,andrea bentley,"and wagner, lee klein",aetna,-306.36,426,elective,2022-01-11,ibuprofen,normal
+daniel drake,68,female,B+,hypertension,2020-04-24,brett ray,carr ltd,aetna,-591.92,426,elective,2020-04-26,lipitor,abnormal
+dr. michael mckay,64,male,O+,cancer,2019-05-31,dawn navarro,"mcconnell and rios, clark",unitedhealthcare,-199.66,122,urgent,2019-06-12,ibuprofen,abnormal

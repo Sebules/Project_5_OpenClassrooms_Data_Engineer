@@ -14,7 +14,7 @@ def create_documents(client,name_database:str,name_collection:str,docs:list):
     collection = db[name_collection]
     
     docs_inserted = collection.insert_many(docs)
-    nb_documents = collection.count_documents({})
+    nb_documents = len(docs)
     
     if nb_documents < 20:
         print(f"Les documents avec les ids {docs_inserted.inserted_ids} ont été insérés dans la collection {name_collection}.")
