@@ -5,7 +5,7 @@
 ```
 Projet5
 │   .env
-|   .env.secrets
+│   .env.secrets
 │   .gitignore
 │   docker-compose.yml
 │   Dockerfile
@@ -15,17 +15,16 @@ Projet5
 │   pyproject.toml
 │   README.md
 │   requirements.txt
-│   uv.lock
 │   __init__.py
 │
 ├───donnees
-│   │   export_healthcare_data.csv
+|   |   export_healthcare_data.csv
 |   |   export_healthcare_data_age_negatif.csv
 |   |   export_healthcare_data_bill_negatif.csv
 |   |   export_healthcare_data_dates_incoherence.csv
 |   |   export_healthcare_data_test_export.csv
-│   │   healthcare_dataset.csv
-│   │   healthcare_dataset_test.csv
+|   |   healthcare_dataset.csv
+|   |   healthcare_dataset_test.csv
 │
 ├───fonctions
 │   │   cleaning_df.py
@@ -39,9 +38,10 @@ Projet5
 │
 ├───scripts
 |   |   script_create_user_mongodb_local.py
-│   │   script_migration_csv_mongodb.py
+|   |   script_migration_csv_mongodb.py
 |   |   script_export_csv_mongodb.py
 |   |   script_delete_collection_mongodb.py
+|   |   __init__.py
 │
 └───tests
     │   test_cleaning_df.py
@@ -80,6 +80,71 @@ Des index ont été créés pour faciliter la recherche dans cette base. Voici l
 
 name, hospital, medical_condition, discharge_date, date_of_admission
 
+
+
+## Installer les dépendances
+
+Afin d'exécuter les scripts et les tests, installer les dépendances en tapant les commandes suivantes:
+
+```
+pip install -r requirements.txt
+```
+## Tests automatisés en local
+
+
+Le projet contient une suite de tests automatisés avec 'pytest'.
+
+Les tests sont divisés en quatre catégories :
+
+### Test d'intégrité et transformation du CSV
+
+Le test test_cleaning_df.py permet de vérifier que le fichier source est exploitable avant la migration :<br>
+  - absence de dataset vide
+  - absence de colonnes avec entièrement de valeurs manquantes
+  - absence de doublons complets
+  - cohérence des âges
+  - cohérence des montants de facturation
+  - cohérence des dates d'admission et de sortie
+  - nettoyage des noms de colonnes
+  - conversion des types
+
+
+### Tests d'intégration MongoDB
+
+
+Ces tests vérifient que la migration fonctionne réellement avec MongoDB : <br>
+  - conversion d'un DataFrame pandas en liste de documents
+  - le nombre de documents insérés correspond au nombre de lignes CSV
+  - les index nécessaires sont créés
+
+
+### Test d'export MongoDB
+
+Ce test vérifie que l'export de documents en .csv depuis MongoDB fonctionne réellement.
+
+
+### Test CRUD MongoDB
+
+Ce test vérifie le bon fonctionnement des fonctions créées pour réaliser le CRUD (CREATE, READ, UPDATE, DELETE) dans MongoDB.
+
+
+Chaque test MongoDB utilise une collection dédiée :
+
+`healthcare_test_<nom_test>`
+
+Cela évite de modifier la collection principale du projet.
+
+
+## Lancer les tests
+
+Les tests sont automatisés avec pytest.
+
+Pour lancer l'ensemble des tests, taper dans l'invite de commande, après s'être placé dans le répertoire du projet:
+
+```
+pytest -v
+```
+
 ## Script de migration automatisée
 
 Le fichier `script_migration_csv_mongodb.py` automatise toutes les étapes de la migration du dataset CSV vers MongoDB.
@@ -98,7 +163,7 @@ Les fichiers suivants sont utiles pour la bonne exécution du script. Copier don
 
 La migration s'effectue en plusieurs étapes successives :
 
-1. **Lecture et vérification du fichier CSV**<br>
+**1. Lecture et vérification du fichier CSV**<br>
    Le script charge le fichier (ex: `healthcare_dataset.csv`) à l'aide de pandas.
    Si le fichier est introuvable ou vide, le script s'arrête immédiatement.
 
@@ -106,7 +171,7 @@ La migration s'effectue en plusieurs étapes successives :
    - vérifie la structure générale du dataframe via la fonction `analyse_df` (aperçu des données, nombre de colonnes et de lignes, informations)
    - supprime les colonnes entièrement nulles ainsi que les lignes en doublon toujours avec la fonction `analyse_df`.
 
-2. **Nettoyage et conversion des données**<br>
+**2. Nettoyage et conversion des données**<br>
    Le dataframe est nettoyé et converti pour garantir la qualité des données injectées :
    - harmonisation des noms de colonnes (`clean_columns_name`)
    - harmonisation du contenu textuel (`clean_columns_content`)
@@ -120,10 +185,10 @@ La migration s'effectue en plusieurs étapes successives :
    - cohérence entre les dates d'admission et de sortie (`dates_incoherence`)
 
   
-3. **Connexion à MongoDB**<br>
+**3. Connexion à MongoDB**<br>
    Le script ouvre une connexion vers l'instance MongoDB locale via `connect_mongodb`.
 
-4. **Migration des données et vérification post-migration**<br>
+**4. Migration des données et vérification post-migration**<br>
    La fonction `migrate_mongodb` insère le dataframe nettoyé dans la collection (ex: 'healthcare_data') de la base (ex: 'datasolutech'). <br>
    La fonction `migrate_mongodb` permet aussi de comparer le nombre de documents dans MongoDB et le nombre de lignes du CSV nettoyé après la migration.
 
@@ -131,92 +196,31 @@ La migration s'effectue en plusieurs étapes successives :
    
 
 
-5. **Création des index**<br>
+**5. Création des index**<br>
    Des index sont créés sur les colonnes les plus utilisées dans les requêtes
    ex: ('name', 'hospital', 'medical_condition', 'date_of_admission','discharge_date') afin d'accélérer la lecture des données.
 
 
-6. **Déconnexion**<br>
+**6. Déconnexion**<br>
    La déconnexion de MongoDB est réalisée avec la fonction `disconnect_mongodb`.
 
-A la fin de la migration, le message "Migration terminée." s'affiche.
+   À la fin de la migration, le message "Migration terminée." s'affiche.
 
 ### Lancer le script
 
-Dans le terminal de commande, en se plaçant dans le dossier du projet, taper les lignes suivantes:
+    Dans le terminal de commande, en se plaçant dans le dossier du projet, taper les lignes suivantes:
 
 ```
 python scripts\script_migration_csv_mongodb.py
 ```
 
-## Tests automatisés en local
+## Export des données depuis MongoDB
 
-
-Le projet contient une suite de tests automatisés avec 'pytest'.
-
-Les tests sont divisés en quatre catégories :
-
-### 1. Test d'intégrité et transformation du CSV
-
-Le test test_cleaning_df.py permet de vérifier que le fichier source est exploitable avant la migration :<br>
-  - absence de dataset vide
-  - absence de colonnes avec entièrement de valeurs manquantes
-  - absence de doublons complets
-  - cohérence des âges
-  - cohérence des montants de facturation
-  - cohérence des dates d'admission et de sortie
-  - nettoyage des noms de colonnes
-  - conversion des types
+Les données dans MongoDB peuvent être exportées en .csv depuis MongoDB via le script `script_export_csv_mongodb.py`. <br>
+Cela permet de les stocker si des modifications ont été faites dans MongoDB et de les utiliser pour des analyses métiers ultérieures.
 
 
 
-### 2. Tests d'intégration MongoDB
-
-
-Ces tests vérifient que la migration fonctionne réellement avec MongoDB : <br>
-  - conversion d'un DataFrame pandas en liste de documents
-  - le nombre de documents insérés correspond au nombre de lignes CSV
-  - les index nécessaires sont créés
-
-
-### 3. Test d'export MongoDB
-
-Ce test vérifie que l'export de document en .csv fonctionne réellement.
-
-
-### 4. Test CRUD MongoDB
-
-Ce test vérifie le bon fonctionnement des fonctions créées pour réaliser le CRUD (CREATE, READ, UPDATE, DELETE) dans MongoDB.
-
-
-Chaque test MongoDB utilise une collection dédiée :
-
-'healthcare_test_<nom_test>'
-
-
-Cela évite de modifier la collection principale du projet.
-
-
-
-## Installer les dépendances
-
-```
-pip install -r requirements.txt
-
-```
-
-
-## Lancer les tests
-
-Les tests sont automatisés avec pytest.
-
-Pour lancer l'ensemble des tests, taper dans l'invite de commande, après s'être placé dans le répertoire du projet:
-
-```
-
-pytest -v
-
-```
 ## Déploiement avec Docker
 
 Ce projet utilise Docker pour exécuter MongoDB et le script de test, de migration, et d'export dans des conteneurs séparés.
@@ -227,10 +231,10 @@ Docker permet de lancer le projet dans un environnement isolé et reproductible.
 
 Au lieu d'installer MongoDB et toutes les dépendances Python directement sur la machine, on utilise :
 
-- un conteneur MongoDB
-- un conteneur Python pour exécuter les tests 
-- un conteneur Python pour exécuter le script de migration
-- un conteneur Python pour exécuter le script d'export.
+   - un conteneur MongoDB
+   - un conteneur Python pour exécuter les tests 
+   - un conteneur Python pour exécuter le script de migration
+   - un conteneur Python pour exécuter le script d'export.
 
 Cela permet de partager plus facilement le projet et de le lancer avec les mêmes versions des outils.
 
@@ -240,7 +244,7 @@ Cela permet de partager plus facilement le projet et de le lancer avec les même
 
 Une machine virtuelle contient un système d'exploitation complet.
 
-Un conteneur Docker contient seulement l'application et ses dépendances nécessaires. Il utilise le système de la machine hôte.
+Un conteneur Docker ne contient que l'application et ses dépendances nécessaires. Il utilise le système de la machine hôte.
 
 Un conteneur est donc généralement plus léger et plus rapide à démarrer qu'une machine virtuelle.
 
@@ -248,7 +252,7 @@ Un conteneur est donc généralement plus léger et plus rapide à démarrer qu'
 
 ## Architecture Docker du projet
 
-Le projet utilise deux services Docker.
+Le projet utilise quatre services Docker.
 
 ### 1. Service MongoDB
 
@@ -260,8 +264,7 @@ image: mongo:7
 
 Le conteneur associé se nomme `container_name: mongodb_datasolutech`
 
-
-Les données MongoDB sont sauvegardées dans un volume Docker
+Les données MongoDB sont sauvegardées dans un volume Docker.
 
 ```
 volume_mongodb
@@ -270,7 +273,7 @@ volume_mongodb
 Il utilise le `port  27017` pour l'accès en interne Docker et le `port 27018` pour l'accès en local via MongoDB Compass.
 
 ```
- _______________________________________________
+ ______________________________________________
 |                                               |                _______________________________
 |         Docker Compose Network                |               |                               |
 |                                               |               |        Machine hôte           |	
@@ -278,7 +281,6 @@ Il utilise le `port  27017` pour l'accès en interne Docker et le `port 27018` p
 |                                               |  port 27018   |_______________________________|
 |_______________________________________________|
            Communication interne                                  Accès externe (MongoDB Compass)
-
 ```
 
 ### 2. Service test
@@ -289,7 +291,7 @@ Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
 L'image Python associée a été construite à partir du Dockerfile.test.
 
-Ce service dépend du service mongo_datasolutech
+Ce service dépend du service mongo_datasolutech.
 
 
 ### 3. Service migration
@@ -309,9 +311,9 @@ Ce service lance l'export des données qui ont été migrées dans MongoDB.
 
 Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
-L'image Python associée a été construite à partir du Dockerfile.export
+L'image Python associée a été construite à partir du Dockerfile.export.
 
-Ce service dépend du service migration
+Ce service dépend du service migration.
 
 
 
@@ -330,12 +332,11 @@ L'objectif est d’appliquer le principe du moindre privilège : chaque utilisat
 Trois rôles sont définis sur la base `datasolutech` :
 
 ```
-| Utilisateur          | Rôle MongoDB | Droits                                |
-|----------------------|--------------|---------------------------------------|
-| admin_datasolutech   | dbOwner      | Administration complète               |
-| app_migration        | readWrite    | Lecture/écriture (migration et export)|
-| analyste_lecture     | read         | Lecture seule (analyse)               |
-
+| Utilisateur          | Rôle MongoDB     | Droits                                       |
+|----------------------|------------------|----------------------------------------------|
+| admin_datasolutech   | dbOwner          | Administration complète                      |
+| app_migration        | readWrite/dbAdmin| Lecture/écriture (migration et export), index|
+| analyste_lecture     | read             | Lecture seule (analyse)                      |
 ```
 L'utilisateur `root` a lui les droits sur le conteneur `mongodb_datasolutech` entier.
 
@@ -345,9 +346,9 @@ Voir le fichier `.env.secrets` pour les mots de passe.
 Le projet utilise le mécanisme officiel proposé par l'image Docker MongoDB : tout fichier `.js` placé dans le répertoire `/docker-entrypoint-initdb.d` du conteneur est exécuté automatiquement au premier démarrage (volume vide).
 
 Cela permet :
-- d'automatiser la création des utilisateurs et rôles,
-- de garantir la reproductibilité de l'environnement,
-- d'éviter toute intervention manuelle après `docker compose up`.
+   - d'automatiser la création des utilisateurs et rôles,
+   - de garantir la reproductibilité de l'environnement,
+   - d'éviter toute intervention manuelle après `docker compose up`.
 
 Le script du fichier `mongo-init.js` ne s'exécute qu'à la création du conteneur. Pour rajouter des utilisateurs plus tard, c'est l'utilisateur root qui peut le faire.
 
