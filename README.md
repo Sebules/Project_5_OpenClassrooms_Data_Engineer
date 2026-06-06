@@ -98,7 +98,7 @@ Les tests sont divisés en quatre catégories :
 
 ### Test d'intégrité et transformation du CSV
 
-Le test test_cleaning_df.py permet de vérifier que le fichier source est exploitable avant la migration :<br>
+Ce test (`test_cleaning_df.py`) vérifie que le fichier source est exploitable avant la migration :<br>
   - absence de dataset vide
   - absence de colonnes avec entièrement de valeurs manquantes
   - absence de doublons complets
@@ -109,10 +109,10 @@ Le test test_cleaning_df.py permet de vérifier que le fichier source est exploi
   - conversion des types
 
 
-### Tests d'intégration MongoDB
+### Test d'intégration MongoDB
 
 
-Ces tests vérifient que la migration fonctionne réellement avec MongoDB : <br>
+Ce test (`test_migration_index_mongodb.py`) vérifie que la migration fonctionne réellement avec MongoDB : <br>
   - conversion d'un DataFrame pandas en liste de documents
   - le nombre de documents insérés correspond au nombre de lignes CSV
   - les index nécessaires sont créés
@@ -120,12 +120,12 @@ Ces tests vérifient que la migration fonctionne réellement avec MongoDB : <br>
 
 ### Test d'export MongoDB
 
-Ce test vérifie que l'export de documents en .csv depuis MongoDB fonctionne réellement.
+Ce test (`test_export_mongodb.py`) vérifie que l'export de documents en .csv depuis MongoDB fonctionne réellement.
 
 
 ### Test CRUD MongoDB
 
-Ce test vérifie le bon fonctionnement des fonctions créées pour réaliser le CRUD (CREATE, READ, UPDATE, DELETE) dans MongoDB.
+Ce test (`test_crud_mongodb.py`) vérifie le bon fonctionnement des fonctions créées pour réaliser le CRUD (CREATE, READ, UPDATE, DELETE) dans MongoDB.
 
 
 Chaque test MongoDB utilise une collection dédiée :
@@ -264,6 +264,10 @@ image: mongo:7
 
 Le conteneur associé se nomme `container_name: mongodb_datasolutech`
 
+Une authentification et des rôles utilisateurs sont mis en place avec le script `mongo-init.js` dans le dossier `/docker-entrypoint-initdb.d/`.
+
+Le fichier `.env.secrets` contient les identifiants et les mots de passe.
+
 Les données MongoDB sont sauvegardées dans un volume Docker.
 
 ```
@@ -289,6 +293,8 @@ Ce service lance les tests définis plus haut.
 
 Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
+Le fichier `.env.secrets` contient les identifiants et les mots de passe.
+
 L'image Python associée a été construite à partir du Dockerfile.test.
 
 Ce service dépend du service mongo_datasolutech.
@@ -300,6 +306,8 @@ Ce service lance la migration vers la base de données définie plus haut.
 
 Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
 
+Le fichier `.env.secrets` contient les identifiants et les mots de passe.
+
 L'image Python associée a été construite à partir du Dockerfile.
 
 Ce service dépend des services mongo_datasolutech et test.
@@ -310,6 +318,8 @@ Ce service dépend des services mongo_datasolutech et test.
 Ce service lance l'export des données qui ont été migrées dans MongoDB.
 
 Ce service s'appuie sur l'environnement défini dans le fichier `.env`.
+
+Le fichier `.env.secrets` contient les identifiants et les mots de passe.
 
 L'image Python associée a été construite à partir du Dockerfile.export.
 
