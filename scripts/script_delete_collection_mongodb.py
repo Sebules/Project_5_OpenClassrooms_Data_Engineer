@@ -14,6 +14,7 @@ from fonctions.crud_mongodb import delete_documents
 
 
 load_dotenv(".env") #charge le fichier .env
+load_dotenv(".env.secrets") #charge le fichier .env
 
 ## PARAMÈTRES POUR LA MIGRATION
 env = os.getenv("ENV", "local")
@@ -25,8 +26,8 @@ else:
 #ajout du DOCKER_PATH_CSV pour que cela fonctionne aussi avec Docker.
 
 # Chargement des données d'identification
-user = os.getenv("APP_MIGRATION_USER")
-password = os.getenv("APP_MIGRATION_PASSWORD")
+user = os.getenv("ADMIN_USER")
+password = os.getenv("ADMIN_PASSWORD")
 if env=="docker":
     host = os.getenv("MONGO_HOST_DOCKER")
 else:
